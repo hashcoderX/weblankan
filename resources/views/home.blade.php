@@ -4,17 +4,23 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="row">
+                <div class="row function-row">
                     <div class="col-md-6">
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addmembermodel">
                             Add Member +
                         </button>
                     </div>
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <input type="text" class="form-control search-box" id="filteremail" name="filteremail"
+                                placeholder="Search Email" onkeyup="searchMember(this.value)">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div id="notification"></div>
-                    <table class="table">
+                    <table class="table content-table">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
@@ -22,7 +28,7 @@
                                 <th scope="col">Address</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="content">
                             @foreach ($members as $member)
                                 <tr>
                                     <td>{{ $member->name }}</td>
@@ -33,13 +39,14 @@
                                         <button class="btn btn-primary edit-button" onclick="setEditDetails(this.id)"
                                             id="{{ $member->id }}" data-bs-toggle="modal"
                                             data-bs-target="#editmodal">Edit</button>
-                                        <button class="btn btn-danger delete-button" onclick="MemberD()"
-                                            data-member-id="{{ $member->id }}">Delete</button>
+                                        <button class="btn btn-danger delete-button" onclick="destroyMember(this.id)"
+                                            id="{{ $member->id }}">Delete</button>
                                     </td>
                                 </tr>
                             @endforeach
 
                         </tbody>
+                       
                     </table>
 
                     <div class="links">
@@ -98,7 +105,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="forms-sample" method="POST" action="/addmember">
+                    <form class="forms-sample" method="POST" action="/updatemember">
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputUsername1">Member Id</label>
@@ -134,16 +141,6 @@
 
 
 <script>
-    function MemberD() {
-        const deleteButtons = document.querySelectorAll('.delete-button');
-        deleteButtons.forEach(button => {
-
-            const memberId = button.getAttribute('data-member-id');
-            destroyMember(memberId);
-
-        });
-    }
-
     function destroyMember(memberId) {
         $.ajax({
             url: "/destroymember",
@@ -153,6 +150,11 @@
             },
             success: function(data) {
                 document.getElementById("notification").innerHTML = data.message;
+                document.getElementById("notification").className = "alert alert-success";
+
+                setTimeout(function() {
+                    location.reload();
+                }, 200);
             }
         });
     }
@@ -169,8 +171,25 @@
                 document.getElementById("namee").value = data.member.name;
                 document.getElementById("emaile").value = data.member.email;
                 document.getElementById("addresse").value = data.member.address;
+
+                
             }
         });
 
+    }
+
+    function searchMember(value) {
+        $.ajax({
+            url: "/getmember",
+            method: "GET",
+            data: {
+                value: value,
+            },
+            success: function(data) {
+
+                console.log(data);
+                $('#content').html(data);
+            }
+        });
     }
 </script>

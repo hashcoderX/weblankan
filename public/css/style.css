@@ -1,0 +1,31 @@
+
+
+.function-row{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.search-box{
+    background-color: white;
+    border: 1px solid red;
+}
+
+.notification{
+    margin: 10px;
+}
+
+.content-table{
+    margin-top: 25px;
+}
+
+.links p{
+    padding: 10px;
+}
+
+.links svg{
+    display: none;
+}
+
+.links a{
+    text-decoration: none;
+}

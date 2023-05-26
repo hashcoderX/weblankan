@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $members = Member::paginate(10);
+        $members = Member::paginate(2);
         return view('home', compact('members'));
     }
 }

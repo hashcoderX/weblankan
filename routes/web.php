@@ -25,5 +25,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::post('/addmember', [MemberController::class, 'create']);    
 Route::get('/destroymember', [MemberController::class, 'destroy']); 
-
-Route::get('/getmemberdetails', [MemberController::class, 'memberdetail']); 
+Route::get('/getmemberdetails', [MemberController::class, 'memberdetail']);   
+Route::post('/updatemember', [MemberController::class, 'update']);    
+Route::get('/getmember', [MemberController::class, 'getmember']);  
