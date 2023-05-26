@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MemberController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +22,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/addmember', [MemberController::class, 'create']);    
+Route::get('/destroymember', [MemberController::class, 'destroy']); 
+
+Route::get('/getmemberdetails', [MemberController::class, 'memberdetail']); 
